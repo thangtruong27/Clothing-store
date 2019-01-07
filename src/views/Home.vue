@@ -1,44 +1,35 @@
 <template>
-  <div class="home">
-    <!-- <ProductReview/> -->
-    <div class="cart">Cart {{cart.length}}</div>
-    <Product :premium="premium" @add-to-cart="updateCart"/>
-  </div>
+  <v-container fluid>
+    <v-layout>
+      <v-flex md3>
+        <app-side-bar></app-side-bar>
+      </v-flex>
+      <v-flex md9>
+        <v-layout column>
+          <app-title></app-title>
+          <app-slide-show></app-slide-show>
+          <app-list-item></app-list-item>
+          <app-footer></app-footer>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
-
 <script>
-// @ is an alias to /src
-//import ProductReview from '@/components/ProductReview.vue';
-import Product from '@/components/Product.vue';
+import AppSideBar from '@/components/AppSideBar.vue';
+import AppTitle from '@/components/AppTitle.vue';
+import AppSlideShow from '@/components/AppSlideShow.vue';
+import AppListItem from '@/components/AppListItem.vue';
+import AppFooter from '@/components/AppFooter.vue';
 
 export default {
   name: 'home',
   components: {
-    //ProductReview
-    Product
-  },
-  data() {
-    return {
-      cart: [],
-      premium: false
-    };
-  },
-  methods: {
-    updateCart(id) {
-      this.cart.push(id);
-    }
+    AppSideBar,
+    AppTitle,
+    AppSlideShow,
+    AppListItem,
+    AppFooter
   }
 };
 </script>
-<style>
-.cart {
-  margin-right: 25px;
-  float: right;
-  border: 1px solid #d8d8d8;
-  padding: 5px 20px;
-}
-.home {
-  display: flex;
-  flex-direction: column;
-}
-</style>
