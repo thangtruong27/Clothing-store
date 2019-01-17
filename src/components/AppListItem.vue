@@ -1,25 +1,39 @@
 <template>
   <div>
-    <v-container>
+    <v-container fluid>
       <v-layout wrap>
-        <v-hover v-for="item in items" :key="item.id">
-          <v-card min-width="200" slot-scope="{hover}" class="ma-2">
-            <v-img :src="item.src">
-              <v-btn absolute color="grey" class="black--text" v-if="hover" fab center>
-                <v-icon>shopping_cart</v-icon>
-              </v-btn>
-            </v-img>
-            <v-card-text>
-              <div>Ripped Skinny Jeans</div>
-              <div>Price: 14,99$</div>
-            </v-card-text>
-          </v-card>
-        </v-hover>
+        <v-flex xs3 v-for="item in items" :key="item.id" pl-1>
+          <v-hover>
+            <v-card slot-scope="{hover}" class="ma-2" :class="`elevation-${hover ? 12 : 2}`">
+              <v-img :src="item.src" @click="viewDetails(item.src)"></v-img>
+              <v-card-text>
+                <div>Ripped Skinny Jeans</div>
+                <div>Price: 14,99$</div>
+              </v-card-text>
+              <v-divider></v-divider>
+              <v-card-action class="d-flex">
+                <v-rating color="grey" half-increments background-color="grey" size="15"></v-rating>
+                <div>
+                  <v-icon class="pr-1" right @click="addToCart">shopping_cart</v-icon>
+                </div>
+              </v-card-action>
+            </v-card>
+          </v-hover>
+          <div>
+            <v-dialog v-model="dialogInfo" width="600">
+              <v-card>
+                <product></product>
+              </v-card>
+            </v-dialog>
+          </div>
+        </v-flex>
       </v-layout>
     </v-container>
   </div>
 </template>
 <script>
+import Product from './Product.vue';
+
 export default {
   name: 'app-list-item',
   data() {
@@ -49,8 +63,22 @@ export default {
           src: '../images/jeans4.jpg',
           id: 6
         }
-      ]
+      ],
+      dialogInfo: false,
+      currentImg: ''
     };
+  },
+  methods: {
+    addToCart() {
+      this.$store.commit('addToCart');
+    },
+    viewDetails(imgUrl) {
+      this.dialogInfo = true;
+      this.$store.commit('viewDetails', imgUrl);
+    }
+  },
+  components: {
+    Product
   }
 };
 </script>

@@ -1,17 +1,21 @@
 <template>
-  <div class="product">
-    <div class="product-image">
-      <img v-bind:src="image">
-    </div>
-    <product-info
-      :details="details"
-      :variants="variants"
-      :brand="brand"
-      :product="product"
-      @update-image="updateImage"
-    ></product-info>
-    <product-tabs :reviews="reviews"></product-tabs>
-  </div>
+  <v-layout column>
+    <v-flex>
+      <v-layout class="my-1">
+        <v-img v-bind:src="image" max-width="300px" class="ma-2"></v-img>
+        <product-info
+          :details="details"
+          :variants="variants"
+          :brand="brand"
+          :product="product"
+          @update-image="updateImage"
+        ></product-info>
+      </v-layout>
+    </v-flex>
+    <v-flex>
+      <product-tabs class="mx-2" :reviews="reviews"></product-tabs>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -40,14 +44,12 @@ export default {
         {
           variantId: '1101',
           color: 'green',
-          image: '../images/sock-green.jpg',
           quantity: 10,
           onSale: true
         },
         {
           variantId: '1102',
           color: 'blue',
-          image: '../images/sock-blue.jpg',
           quantity: 0,
           onSale: false
         }
@@ -62,7 +64,7 @@ export default {
   },
   computed: {
     image() {
-      return this.variants[this.selectedVariant].image;
+      return this.$store.state.productImage;
     }
   },
   methods: {
@@ -72,11 +74,3 @@ export default {
   }
 };
 </script>
-<style>
-.product {
-  display: flex;
-  flex-direction: column;
-  flex-flow: wrap;
-  padding: 1rem;
-}
-</style>
